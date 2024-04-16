@@ -36,10 +36,11 @@ class BasicAuth(Auth):
             return None
 
         try:
-            a_base64 = b64decode(base64_authorization_header)
+            a_base64 = base64_authorization_header.encode('utf-8')
+            a_base64 = b64decode(a_base64)
+            return a_base64.decode('utf-8')
         except Exception:
             return None
-        return a_base64.decode('utf-8')
 
     def extract_user_credentials(
             self, decoded_base64_authorization_header: str
@@ -74,3 +75,19 @@ class BasicAuth(Auth):
             return None
         except Exception:
             return None
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """ overloads Auth and retrieves the User instance for a request """
+        header = self.authorization_header(request)
+        if header is not None:
+            a_header = self.extract_base64_authorization_header(header)
+            if a_header is not None:
+                d_header = self.decode_base64_authorization_header(a_header)
+                if d_header is not None:
+                    email, pwd = self.extract_user_credentials(d_header)
+                    if email is not None:
+                        user = self.user_object_from_credentials(
+                            email, pwd
+                            )
+                        return user
+        return
