@@ -52,7 +52,7 @@ class DB:
                     return user
         raise NoResultFound
 
-    def update_user(self, user_id: int, **kwargs) -> User:
+    def update_user(self, user_id: int, **kwargs) -> None:
         """ updates user attributes as passed in the method's argument """
         try:
             user = self.find_user_by(id=user_id)
