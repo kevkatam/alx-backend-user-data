@@ -54,13 +54,13 @@ class DB:
 
     def update_user(self, user_id: int, **kwargs) -> User:
         """ updates user attributes as passed in the method's argument """
-        user = self.find_user_by(id=user_id)
-        if user:
-            for k, v in kwargs.items():
-                if hasattr(user, k):
-                    setattr(user, k, v)
-                else:
-                    raise ValueError
-            self._session.commit()
-        else:
+        try:
+            user = self.find_user_by(id=user_id)
+        except NoResultFound:
             raise ValueError
+        for k, v in kwargs.items():
+            if hasattr(user, k):
+                setattr(user, k, v)
+            else:
+                raise ValueError
+        self._session.commit()
