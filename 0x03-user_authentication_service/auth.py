@@ -25,7 +25,7 @@ class Auth:
     def register_user(self, email: str, password: str) -> User:
         """ hashes user password and save user to database """
         try:
-            user = self._db.find_user_by(email=email)
+            self._db.find_user_by(email=email)
         except NoResultFound:
             raise ValueError(f'User {email} already exists')
 
