@@ -19,7 +19,7 @@ class Auth:
     """Auth class to interact with the authentication database.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._db = DB()
 
     def register_user(self, email: str, password: str) -> User:
@@ -27,7 +27,7 @@ class Auth:
         try:
             self._db.find_user_by(email=email)
         except NoResultFound:
-            hashed = _hashed_password(password)
-            new_user = self._db.add_user(email, hashed)
-            return new_user
-        raise ValueError(f'User {email} already exists')
+            raise ValueError(f"User {email} already exists")
+        hashed = _hashed_password(password)
+        new_user = self._db.add_user(email, hashed)
+        return new_user 
