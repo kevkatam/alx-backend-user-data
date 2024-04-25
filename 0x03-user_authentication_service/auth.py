@@ -30,4 +30,4 @@ class Auth:
             raise ValueError(f"User {email} already exists")
         hashed = _hashed_password(password)
         new_user = self._db.add_user(email, hashed)
-        return new_user 
+        return new_user
