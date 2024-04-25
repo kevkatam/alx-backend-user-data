@@ -56,10 +56,10 @@ def logout() -> None:
     """ deletes the current user's session """
     session_id = request.form.get("session_id")
     user = AUTH.get_user_from_session_id(session_id)
-    if user:
-        AUTH.destroy_session(user.id)
-        return redirect(url_for('get_data'))
-    abort(403)
+    if user is None or session_id is None:
+        abort(403)
+    AUTH.destroy_session(user.id)
+    return redirect(url_for('get_data'))
 
 
 if __name__ == "__main__":
