@@ -52,13 +52,13 @@ def login() -> str:
 
 
 @app.route('/sessions', methods=['DELETE'], strict_slashes=False)
-def logout() -> None:
+def logout() ->:
     """ deletes the current user's session """
     session_id = request.form.get("session_id")
     user = AUTH.get_user_from_session_id(session_id)
     if user:
         AUTH.destroy_session(user.id)
-        redirect(url_for('get_data'))
+        return redirect(url_for('get_data'))
     abort(403)
 
 
