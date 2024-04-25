@@ -18,14 +18,13 @@ def get_data() -> str:
     return jsonify(data)
 
 
-@app.route('/users', methods=['POST'],
-           strict_slashes=False)
+@app.route('/users', methods=['POST'], strict_slashes=False)
 def users() -> str:
     """ registers a user and returns 400 status code"""
     email = request.form.get("email")
     password = request.form.get("password")
     try:
-        AUTH.register_user(email, password)
+        new_user = AUTH.register_user(email, password)
         return jsonify({"email": email, "message": "user created"})
     except ValueError:
         return jsonify({"message": "email already registered"}), 400
