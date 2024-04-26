@@ -42,12 +42,9 @@ class Auth:
         """ check the user password if it mactches """
         try:
             user = self._db.find_user_by(email=email)
-            b_password = password.encode()
+            b_password = password.encode('utf-8')
             hashed_password = user.hashed_password
-            if bcrypt.checkpw(b_password, hashed_password):
-                return True
-            else:
-                return False
+            return bcrypt.checkpw(b_password, hashed_password)
         except NoResultFound:
             return False
 
