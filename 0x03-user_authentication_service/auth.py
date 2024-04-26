@@ -89,8 +89,7 @@ class Auth:
     def update_password(self, reset_token: str, password: str) -> None:
         try:
             user = self._db.find_user_by(reset_token=reset_token)
-            b_password = password.encode()
-            hashed_password = _hashed_password(b_password)
+            hashed_password = _hash_password(password)
             self._db.update_user(user.id,
                                  hashed_password=hashed_password,
                                  reset_token=None)
